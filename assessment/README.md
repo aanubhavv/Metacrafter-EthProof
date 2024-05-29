@@ -8,49 +8,76 @@ MyToken is a basic Ethereum smart contract written in Solidity. This contract al
 
 ## Getting Started
 
+## Running MyToken Contract in Remix
+
+To run the MyToken contract using Remix, an online Solidity IDE, follow these steps:
+
 ### Installing
 
-1. **Download the Project**: Clone or download the project repository from GitHub.
-   ```
-   git clone https://github.com/yourusername/mytoken-project.git
-   ```
+1. **Open Remix**: Navigate to the [Remix IDE](https://remix.ethereum.org/) in your web browser.
 
-2. **Dependencies**: Ensure you have the required tools installed, such as Node.js, npm, and Truffle.
-   ```
-   npm install -g truffle
-   ```
+2. **Create a New File**:
+   - In the left panel, click on the "+" icon to create a new file.
+   - Name the file `MyToken.sol`.
 
-3. **Compile the Contract**: Navigate to the project directory and compile the contract.
-   ```
-   truffle compile
-   ```
+3. **Copy the Contract Code**:
+   - Copy the following Solidity code into `MyToken.sol`:
+     ```solidity
+     // SPDX-License-Identifier: MIT
+     pragma solidity ^0.8.25;
 
-4. **Deploy the Contract**: Deploy the contract to your desired Ethereum network.
-   ```
-   truffle migrate
-   ```
+     contract MyToken {
+         // public variables here
+         string public tokenName = "Warp";
+         string public tokenAbbrv = "WRP";
+         uint public totalSupply = 0;
+
+         // mapping variable here
+         mapping(address => uint) public balances;
+
+         // mint function
+         function mint(address _address, uint _value) public {
+             balances[_address] += _value;
+             totalSupply += _value;
+         }
+
+         // burn function
+         function burn(address _address, uint _value) public {
+             if(balances[_address] >= _value){
+                 balances[_address] -= _value;
+                 totalSupply -= _value;
+             }
+         }
+     }
+     ```
 
 ### Executing program
 
-1. **Run the Development Console**: Start the Truffle development console.
-   ```
-   truffle develop
-   ```
+1. **Compile the Contract**:
+   - Click on the "Solidity Compiler" tab on the left sidebar.
+   - Ensure the compiler version is set to `0.8.25` (or compatible).
+   - Click the "Compile MyToken.sol" button.
 
-2. **Interact with the Contract**: Once inside the console, you can interact with the deployed contract.
-   ```javascript
-   // Get the deployed contract instance
-   MyToken.deployed().then(function(instance) { tokenInstance = instance; });
+2. **Deploy the Contract**:
+   - Go to the "Deploy & Run Transactions" tab on the left sidebar.
+   - Ensure "Environment" is set to "JavaScript VM (London)" for a local blockchain environment.
+   - Click the "Deploy" button next to the `MyToken` contract.
 
-   // Mint tokens
-   tokenInstance.mint('0xYourEthereumAddress', 1000);
+3. **Interact with the Contract**:
+   - After deployment, the contract instance will appear in the "Deployed Contracts" section.
+   - You can interact with the contract using the available functions:
 
-   // Burn tokens
-   tokenInstance.burn('0xYourEthereumAddress', 500);
+     **Mint Tokens**:
+     - In the `mint` function input fields, enter an address and a value (e.g., `0x123...` and `1000`).
+     - Click the "transact" button to mint the tokens.
 
-   // Check balance
-   tokenInstance.balances('0xYourEthereumAddress').then(function(balance) { console.log(balance.toString()); });
-   ```
+     **Burn Tokens**:
+     - In the `burn` function input fields, enter an address and a value (e.g., `0x123...` and `500`).
+     - Click the "transact" button to burn the tokens.
+
+     **Check Balance**:
+     - In the `balances` function input field, enter an address (e.g., `0x123...`).
+     - Click the "call" button to check the balance of the address.
 
 ## Help
 
@@ -61,8 +88,8 @@ If you encounter common issues or problems, here are some troubleshooting tips:
    pragma solidity ^0.8.25;
    ```
 
-2. **Deployment Issues**: Make sure you have configured your network settings correctly in the `truffle-config.js` file.
+2. **Deployment Issues**: Make sure you have selected the correct environment in the "Deploy & Run Transactions" tab.
 
 3. **Balance Issues**: Verify that the address you are interacting with has sufficient tokens for burning.
 
-For additional help, you can refer to the Truffle documentation or seek assistance on Ethereum development forums.
+For additional help, you can refer to the Remix documentation or seek assistance on Ethereum development forums.
